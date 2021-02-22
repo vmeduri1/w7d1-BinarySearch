@@ -22,40 +22,42 @@ const recurBSearch = (nums, targetNum) => {
     return false;
   }
   // determine the slice point (ie the 'middle' of the array).
-  const slicePoint = nums[nums.length /2]
-  let leftHalf = nums.slice(0, Math.floor(slicePoint));
-  let rightHalf = nums.slice(slicePoint);
-  console.log("left", leftHalf);
-  console.log("right", rightHalf);
+  const slicePoint =  Math.floor(nums.length / 2)
+  const middleNum = nums[slicePoint];
+
+  let leftHalf = nums.slice(0, slicePoint);
+  let rightHalf = nums.slice(slicePoint + 1);
+  // console.log("left", leftHalf);
+  // console.log("right", rightHalf);
 
   // create "left half" and "right half" arrays, not including the slice point.
 
   // if targetNum is less than the value in the array at slice point,
   // return this search on the left half
-   if (targetNum < rightHalf[0]) {              //21 < 16 false
+   if (targetNum < middleNum) {              //21 < 16 false
     return recurBSearch(leftHalf, targetNum);
   }
 
   // if targetNum is greater than the value in the array at slice point,
   //return this search on the right half
-  if (targetNum > leftHalf[leftHalf.length - 1]) {     //21 >= 15 true
+  if (targetNum > middleNum) {     //21 >= 15 true
     return recurBSearch(rightHalf, targetNum);
   }
   // if it's not greater than or less than (i.e. 'else'),
   // we know it's equal so return true
 
-    return true;
+  return true;
 
 
 
 }
 
-const oddNums = [11, 12, 13, 14, 15, 16, 17, 18, 19]
-const evenNums = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-const empty = [];
+// const oddNums = [11, 12, 13, 14, 15, 16, 17, 18, 19]
+// const evenNums = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+// const empty = [];
 
-console.log(recurBSearch(evenNums, 1));
-console.log(recurBSearch(oddNums, 1));
+// console.log(recurBSearch(evenNums, 1));
+// console.log(recurBSearch(oddNums, 1));
 
 /*******************************************************************
 BINARY SEARCH VERSION 2:
@@ -67,10 +69,22 @@ targetNum is within the nums array.
 const iterBSearch = (nums, targetNum) => {
   // Save references to indices at the beginning, middle, and end of the array
   // into variables: lowerIdx, midIdx, and upperIdx
-
+    let lowerIdx = nums[0];
+    let midIdx = Math.floor(nums.length / 2);
+    let upperIdx = nums[nums.length - 1];
   // while the lowerIdx is less than or equal to the upperIdx, there are still
   // values to be searched
-
+  while (lowerIdx < upperIdx) {
+    midIdx = (lowerIdx + upperIdx) / 2;
+    if (targetNum > midIdx) {
+      lowerIdx = midIdx;
+    } else if (targetNum < midIdx) {
+      upperIdx = midIdx;
+    } else {
+      return true;
+    }
+  }
+  return false;
   // reassign the midIdx to the the middle of the new lower and upper indices
   // Hint: This is the sum of lower and upper, divided by 2
 
