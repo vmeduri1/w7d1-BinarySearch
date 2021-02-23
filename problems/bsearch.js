@@ -121,8 +121,41 @@ const recurBSearchIdx = (nums, targetNum) => {
   // on the 'right half' recursion. in that, try saving the return value of the
   // recursive call into a variable, and adding it to the current stack-frame's
   // midIdx + 1.
+  if (nums.length === 0) {
+    return -1;
+  }
+  // determine the slice point (ie the 'middle' of the array).
+  let slicePoint =  Math.floor(nums.length / 2)
+  let middleNum = nums[slicePoint];
+
+  let leftHalf = nums.slice(0, slicePoint);
+  let rightHalf = nums.slice(slicePoint + 1);
+
+  // create "left half" and "right half" arrays, not including the slice point.
+
+  // if targetNum is less than the value in the array at slice point,
+  // return this search on the left half
+   if (targetNum < middleNum) {
+    return recurBSearchIdx(leftHalf, targetNum, slicePoint);
+  }
+
+  // if targetNum is greater than the value in the array at slice point,
+  //return this search on the right half
+  if (targetNum > middleNum) {
+
+    return recurBSearchIdx(rightHalf, targetNum, slicePoint + 1);
+
+  }
+
+  return slicePoint;
 }
 
+const oddNums = [11, 12, 13, 14, 15, 16, 17, 18, 19]
+const evenNums = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+const empty = [];
+
+console.log(recurBSearchIdx(evenNums, 15));
+console.log(recurBSearchIdx(oddNums, 1));
 
 /*******************************************************************
 BINARY SEARCH VERSION 4:
