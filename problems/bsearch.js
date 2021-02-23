@@ -121,6 +121,7 @@ const recurBSearchIdx = (nums, targetNum) => {
   // on the 'right half' recursion. in that, try saving the return value of the
   // recursive call into a variable, and adding it to the current stack-frame's
   // midIdx + 1.
+  let count = 0;
   if (nums.length === 0) {
     return -1;
   }
@@ -136,15 +137,15 @@ const recurBSearchIdx = (nums, targetNum) => {
   // if targetNum is less than the value in the array at slice point,
   // return this search on the left half
    if (targetNum < middleNum) {
-    return recurBSearchIdx(leftHalf, targetNum, slicePoint);
+    return recurBSearchIdx(leftHalf, targetNum, count + 1);
   }
 
   // if targetNum is greater than the value in the array at slice point,
   //return this search on the right half
   if (targetNum > middleNum) {
 
-    return recurBSearchIdx(rightHalf, targetNum, slicePoint + 1);
-
+    const recur = recurBSearchIdx(rightHalf, targetNum, count + 1);
+    return recur + slicePoint + 1;
   }
 
   return slicePoint;
